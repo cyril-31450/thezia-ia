@@ -2,6 +2,7 @@ from flask import Flask, request, send_file
 from rembg import remove, new_session
 from PIL import Image
 import io
+import os
 
 app = Flask(__name__)
 
@@ -30,5 +31,7 @@ def remove_background():
     return send_file(img_byte_arr, mimetype='image/png')
 
 if __name__ == '__main__':
-    # Render aime le port 10000
-    app.run(host='0.0.0.0', port=10000)
+    # On récupère le numéro de porte imposé par Render, sinon on prend 10000
+    port = int(os.environ.get("PORT", 10000))
+    # host='0.0.0.0' est OBLIGATOIRE pour que Render détecte que l'application est en vie
+    app.run(host='0.0.0.0', port=port)
